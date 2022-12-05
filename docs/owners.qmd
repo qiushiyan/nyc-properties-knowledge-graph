@@ -1,0 +1,11 @@
+---
+title: "Finding property owners"
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+knitr::include_graphics("images/owner.png")
+```

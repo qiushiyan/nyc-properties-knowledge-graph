@@ -1,0 +1,39 @@
+project:
+  type: website
+  execute-dir: project
+  render:
+    - "docs"
+
+website:
+  page-navigation: true
+  title: "Modelling Commerical Real Estates with Knowledge Graphs"
+  site-url: https://qiushiyan.github.io/nyc-properties-knowledge-graph
+  repo-url: https://github.com/qiushiyan/nyc-properties-knowledge-graph
+  repo-actions: [edit, issue]
+
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/qiushiyan/nyc-properties-knowledge-graph
+        aria-label: GitHub
+
+    left:
+      - text: "Data"
+        href: docs/data.qmd
+
+      - text: "Finding Owners"
+        href: docs/owners.qmd
+
+format:
+  html:
+    theme: [cosmo, style.scss]
+    mainfont: Roboto
+    monofont: Fira Code
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    code-tools: true
+
+freeze: auto
+
+editor: visual
