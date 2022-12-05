@@ -1,0 +1,14 @@
+{
+  "hash": "15e470896fd73e6c21589f70e092ca9e",
+  "result": {
+    "markdown": "---\ntitle: \"Finding property owners\"\nexecute:\n  echo: false\n  message: false\n  warning: false\n---\n\n::: {.cell}\n::: {.cell-output-display}\n![](images/owner.png)\n:::\n:::",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

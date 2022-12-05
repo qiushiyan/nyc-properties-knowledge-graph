@@ -6,6 +6,41 @@ execute:
   warning: false
 ---
 
-```{r}
-knitr::include_graphics("images/owner.png")
+![](images/owner.png)
+
+## Properties with many owners and owners with many properties
+
+:::: {.columns .column-page-inset}
+::: {.column width='45%' style='margin-right: 20px'}
+
+Properties with many owners
+
+```{.cypher}
+match (o:OWNER) - [r:TAX_ASSESSOR_OWNER] -> (b:BBL)
+where o.name <> "UNAVAILABLE OWNER"
+with b, count(r) as rel_count, collect(o) as o
+where rel_count > 1
+return b, o
 ```
+
+:::
+::: {.column width='45%'}
+
+Owners with many properties
+
+```{.cypher}
+match (o:OWNER) - [r:TAX_ASSESSOR_OWNER] -> (b:BBL)
+where o.name <> "UNAVAILABLE OWNER"
+with o, count(r) as rel_count, collect(b) as b
+where rel_count > 1
+return b, o
+```
+
+:::
+::::
+
+![](images/owner-group.png)
+
+
+##
+
