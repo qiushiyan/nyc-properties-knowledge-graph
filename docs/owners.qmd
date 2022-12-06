@@ -41,6 +41,40 @@ return b, o
 
 ![](images/owner-group.png)
 
+## Shortest path from LLC to Phones
 
-##
+Which LLC owns the most properties?
 
+```cypher
+match (owner:OWNER) - [] ->(b:BBL)
+with owner, count(b) as n_properties
+where owner.name contains "LLC"
+return owner, n_properties
+order by n_properties desc
+```
+
+![](images/property-count.png)
+
+Find the shorted path between a LLC and a Phone node
+
+```cypher
+match (o:OWNER), (p:PHONE),  path = shortestPath((o)-[*]-(p))
+where o.name CONTAINS "LLC" and length(path) < 5
+return path
+```
+
+
+:::: {.columns .column-page-inset}
+::: {.column width='45%' style='margin-right: 20px'}
+
+
+![](images/shortest-path-1.png)
+
+:::
+::: {.column width='45%'}
+
+
+![](images/shortest-path-2.png)
+
+:::
+::::

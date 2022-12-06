@@ -1,14 +1,21 @@
 ---
-title: "Data"
 execute:
   echo: false
   message: false
   warning: false
 ---
 
-```{r}
-library(dplyr)
-```
+## Context
+
+Imagine we are working for a commercial real estate company and trying to organize our data to solve two problems
+
+- we want to keep in contact with potential future sellers, we have a list of properties and their owners, but lots of the properties are officially own by a LLC entity lacking of a real person to contact.
+
+- If a buyer visits our website, we want to have a recommendation system that suggests similar properties to the one he is looking at.
+
+
+
+## Data
 
 This project uses public data from [NYC Open Data](https://opendata.cityofnewyork.us/) with a limited focus on properties in Manhattan.
 
@@ -16,7 +23,7 @@ This project uses public data from [NYC Open Data](https://opendata.cityofnewyor
 
   ```{r}
   vroom::vroom("data/tax_small_final.csv") |>
-    mutate(bbl = as.character(bbl)) |>
+    dplyr::mutate(bbl = as.character(bbl)) |>
     dplyr::glimpse()
   ```
 
@@ -24,7 +31,7 @@ This project uses public data from [NYC Open Data](https://opendata.cityofnewyor
 
   ```{r}
   vroom::vroom("data/deed_small_final.csv") |>
-    mutate(bbl = as.character(bbl), deed_id = as.character(deed_id)) |>
+    dplyr::mutate(bbl = as.character(bbl), deed_id = as.character(deed_id)) |>
     dplyr::glimpse()
   ```
 
@@ -32,7 +39,7 @@ This project uses public data from [NYC Open Data](https://opendata.cityofnewyor
 
   ```{r}
   vroom::vroom("data/permit_small_final.csv") |>
-    mutate(bbl = as.character(bbl), permit_owner_phone = as.character(permit_owner_phone)) |>
+    dplyr::mutate(bbl = as.character(bbl), permit_owner_phone = as.character(permit_owner_phone)) |>
     dplyr::glimpse()
   ```
 

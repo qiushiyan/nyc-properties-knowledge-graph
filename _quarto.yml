@@ -6,7 +6,7 @@ project:
 
 website:
   page-navigation: true
-  title: "Modelling Commerical Real Estates with Knowledge Graphs"
+  title: "Modelling Real Estates with Graphs"
   site-url: https://qiushiyan.github.io/nyc-properties-knowledge-graph
   repo-url: https://github.com/qiushiyan/nyc-properties-knowledge-graph
   repo-actions: [edit, issue]
@@ -23,6 +23,9 @@ website:
 
       - text: "Finding Owners"
         href: docs/owners.qmd
+
+      - text: "Embeddings"
+        href: "docs/embedding.qmd"
 
 format:
   html:

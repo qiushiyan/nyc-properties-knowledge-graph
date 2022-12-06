@@ -1,0 +1,108 @@
+---
+title: "Embeddings"
+execute:
+  message: false
+  echo: false
+---
+
+## Node2Vec
+
+We'll apply **node2vec** to extract vector representations from the property nodes. This algorithms creates node embeddings that put connected nodes near each other (as measured by the vector space distance metric) and nodes that do not share a connection farther away.
+
+```cypher
+// omit other hyperparameters for brevity
+CALL gds.beta.node2vec.write(
+    'nyc2',
+    {embeddingDimension: 64, walksPerNode: 10, walkLength: 80, writeProperty: "embedding"}
+)
+```
+
+Display the embeddings
+
+```cypher
+match (b:BBL)
+return b.address, b.embedding
+```
+
+![](images/embedding.png)
+
+## Visualize embeddings with t-SNE
+
+```{python}
+import plotly.express as px
+import pandas as pd
+plot_df = pd.read_csv("data/tsne-plot-data.csv")
+fig = px.scatter_3d(plot_df, x='comp-1', y='comp-2', z='comp-3', color='node', log_x=True, log_y=True, log_z=True)
+fig.show()
+```
+
+
+## K nearest neighbors
+
+```cypher
+CALL gds.knn.write('nyc2', {
+    topK: 2,
+    nodeProperties: ['embedding'],
+    randomSeed: 42,
+    concurrency: 1,
+    sampleRate: 1.0,
+    deltaThreshold: 0.0,
+    writeRelationshipType: "SIMILAR",
+    writeProperty: "score"
+})
+YIELD nodesCompared, relationshipsWritten, similarityDistribution
+RETURN nodesCompared, relationshipsWritten, similarityDistribution.mean as meanSimilarity
+```
+
+## Most similar pairs
+
+```{.cypher}
+match (b1:BBL) -[r:SIMILAR] -> (b2:BBL)
+where  b1.address is not null and b2.address is not  null
+return b1.address as property_1, b2.address as property_2, r.score as similarity
+order by similarity descending, property_1, property_2
+```
+
+![](images/similarity-1.png)
+
+Find the most similar properties to **1 EAST 35 STREET RES NYC NY 10016**
+
+```cypher
+match (b1:BBL {address: "1 EAST 35 STREET RES NYC NY 10016"}) - [r:SIMILAR] -> (b2:BBL)
+where b2.address is not null
+return b1.address as target, b2.address as recommendations, r.score as similarity
+order by similarity descending
+```
+
+
+<!-- ```cypher
+match (b:BBL {address:"1 EAST 35 STREET RES NYC NY 10016" }) - [] -> (node) - [*..2] -> (other)
+return *
+``` -->
+
+:::: {.columns .column-page-inset}
+::: {.column width='45%' style='margin-right: 20px'}
+
+```{r}
+library(leaflet)
+
+m <- leaflet() |>
+  addTiles() |>
+  addPopups(lng=-73.983, lat=40.749, popup="Target") |>
+  addPopups(lng=-73.9786, lat=40.7424, popup="Recommendation 1") |>
+  addPopups(lng=-73.97648, lat=40.74858, popup="Recommendation 2")
+m  # Print the map
+```
+
+
+:::
+::: {.column width='45%'}
+
+![](images/similarity-2.png)
+
+:::
+::::
+
+
+
+
